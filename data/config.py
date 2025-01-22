@@ -172,7 +172,21 @@ pascal_sbd_dataset = dataset_base.copy({
     'class_names': PASCAL_CLASSES,
 })
 
+#
+# Create a berry_dataset definition under dataset_base in data/config.py
+#
+berry_dataset = dataset_base.copy({
+    'name': 'berry_dataset',
 
+    'train_images': './data/images_train',
+    'train_info':   './data/json_train',
+
+    'valid_images': './data/images_valid',
+    'valid_info':   './data/json_valid',
+
+    'has_gt': True,
+    'class_names': ('berry_1', 'berry_2', 'berry_3', 'berry_4', 'berry_5')
+})
 
 
 
