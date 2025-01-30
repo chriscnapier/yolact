@@ -173,10 +173,12 @@ pascal_sbd_dataset = dataset_base.copy({
 })
 
 #
-# Create a berry_dataset definition under dataset_base in data/config.py
+#--Create an lnap_dataset definition under dataset_base
 #
-berry_dataset = dataset_base.copy({
-    'name': 'berry_dataset',
+LNAP_CLASSES = ('lnap_1', 'lnap_2', 'lnap_3', 'lnap_4', 'lnap_5',
+                'lnap_6', 'lnap_7', 'lnap_8', 'lnap_9', 'lnap_10')
+lnap__dataset = dataset_base.copy({
+    'name': 'lnap_dataset',
 
     'train_images': './data/images_train',
     'train_info':   './data/json_train',
@@ -185,7 +187,7 @@ berry_dataset = dataset_base.copy({
     'valid_info':   './data/json_valid',
 
     'has_gt': True,
-    'class_names': ('berry_1', 'berry_2', 'berry_3', 'berry_4', 'berry_5')
+    'class_names': LNAP_CLASSES, 
 })
 
 
@@ -670,16 +672,16 @@ coco_base_config = Config({
 yolact_base_config = coco_base_config.copy({
     'name': 'yolact_base',
 
-    # Dataset stuff
-    'dataset': coco2017_dataset,
-    'num_classes': len(coco2017_dataset.class_names) + 1,
+    #--Dataset stuff: Use lnap_dataset
+    'dataset': lnap_dataset,  #--coco2017_dataset,
+    'num_classes': len(lnap_dataset.class_names) + 1, #--len(coco2017_dataset.class_names) + 1,
 
-    # Image Size
-    'max_size': 550,
+    #-- Image Size
+    'max_size': 1024, #--550,
     
-    # Training params
-    'lr_steps': (280000, 600000, 700000, 750000),
-    'max_iter': 800000,
+    #-- Training params
+    'lr_steps': (280, 600, 700, 750), #--280000, 600000, 700000, 750000),
+    'max_iter': 800, #--800000,
     
     # Backbone Settings
     'backbone': resnet101_backbone.copy({
@@ -819,6 +821,8 @@ yolact_plus_resnet50_config = yolact_plus_base_config.copy({
     }),
 })
 
+#-- allow command: train --config=lnap_config
+lnap_config = yolact_plus_resnet50_config
 
 # Default config
 cfg = yolact_base_config.copy()
