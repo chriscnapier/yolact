@@ -177,7 +177,7 @@ pascal_sbd_dataset = dataset_base.copy({
 #
 LNAP_CLASSES = ('lnap_1', 'lnap_2', 'lnap_3', 'lnap_4', 'lnap_5',
                 'lnap_6', 'lnap_7', 'lnap_8', 'lnap_9', 'lnap_10')
-lnap__dataset = dataset_base.copy({
+lnap_dataset = dataset_base.copy({
     'name': 'lnap_dataset',
 
     'train_images': './data/images_train',
