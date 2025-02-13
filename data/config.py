@@ -173,10 +173,24 @@ pascal_sbd_dataset = dataset_base.copy({
 })
 
 #
-#--Create an lnap_dataset definition under dataset_base
+# Create a lnap_dataset definition under dataset_base
 #
-LNAP_CLASSES = ('lnap_1', 'lnap_2', 'lnap_3', 'lnap_4', 'lnap_5',
-                'lnap_6', 'lnap_7', 'lnap_8', 'lnap_9', 'lnap_10')
+#
+# For each of four berry colours Blue, Green. Red, Yellow, 
+# and for each "clock" orintation position from 0 to 11.
+#
+LNAP_CLASSES = (
+    'B00', 'B01', 'B02', 'B03', 'B04', 'B05', 
+    'B06', 'B07', 'B08', 'B09', 'B10', 'B11',
+    'G00', 'G01', 'G02', 'G03', 'G04', 'G05', 
+    'G06', 'G07', 'G08', 'G09', 'G10', 'G11',
+    'R00', 'R01', 'R02', 'R03', 'R04', 'R05', 
+    'R06', 'R07', 'R08', 'R09', 'R10', 'R11',
+    'Y00', 'Y01', 'Y02', 'Y03', 'Y04', 'Y05', 
+    'Y06', 'Y07', 'Y08', 'Y09', 'Y10', 'Y11',
+    )
+
+                
 lnap_dataset = dataset_base.copy({
     'name': 'lnap_dataset',
 
@@ -185,9 +199,9 @@ lnap_dataset = dataset_base.copy({
 
     'valid_images': './data/images_valid',
     'valid_info':   './data/json_valid',
-
+    
     'has_gt': True,
-    'class_names': LNAP_CLASSES, 
+    'class_names': LNAP_CLASSES,
 })
 
 
@@ -676,7 +690,7 @@ yolact_base_config = coco_base_config.copy({
     'dataset': lnap_dataset,  #--coco2017_dataset,
     'num_classes': len(lnap_dataset.class_names) + 1, #--len(coco2017_dataset.class_names) + 1,
 
-    #-- Image Size
+    # Image Size
     'max_size': 1024, #--550,
     
     #-- Training params
