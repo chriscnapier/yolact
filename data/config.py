@@ -221,7 +221,7 @@ vgg_transform = Config({
     'channel_order': 'RGB',
     'normalize': False,
     'subtract_means': True,
-    'to_float': False,
+    'to_float': False,ngs{yolact-iccv2019,
 })
 
 darknet_transform = Config({
@@ -538,7 +538,7 @@ coco_base_config = Config({
 
     # Set this to a config object if you want an FPN (inherit from fpn_base). See fpn_base for details.
     'fpn': None,
-
+    
     # Use the same weights for each network head
     'share_prediction_module': False,
 
@@ -686,17 +686,17 @@ coco_base_config = Config({
 yolact_base_config = coco_base_config.copy({
     'name': 'yolact_base',
 
-    #--Dataset stuff: Use lnap_dataset
-    'dataset': lnap_dataset,  #--coco2017_dataset,
-    'num_classes': len(lnap_dataset.class_names) + 1, #--len(coco2017_dataset.class_names) + 1,
+    # Dataset stuff
+    'dataset': lnap_dataset,                           #--coco2017_dataset,
+    'num_classes': len(lnap_dataset.class_names) + 1,  #--len(coco2017_dataset.class_names) + 1,
 
     # Image Size
-    'max_size': 1024, #--550,
+    'max_size': 1024,                                   #--550,
     
-    #-- Training params
-    'lr_steps': (280, 600, 700, 750), #--280000, 600000, 700000, 750000),
-    'max_iter': 800, #--800000,
-    
+    # Training params
+    'lr_steps': (280, 600, 700, 750),                  #--(280000, 600000, 700000, 750000),
+    'max_iter': 800,                                   #--800000,
+
     # Backbone Settings
     'backbone': resnet101_backbone.copy({
         'selected_layers': list(range(1, 4)),
@@ -835,7 +835,7 @@ yolact_plus_resnet50_config = yolact_plus_base_config.copy({
     }),
 })
 
-#-- allow command: train --config=lnap_config
+#-- simplify training command as:  train --config=lnap_config
 lnap_config = yolact_plus_resnet50_config
 
 # Default config
@@ -855,4 +855,43 @@ def set_cfg(config_name:str):
 def set_dataset(dataset_name:str):
     """ Sets the dataset of the current config. """
     cfg.dataset = eval(dataset_name)
+    
+"""
+--Added with lnap_dataset addition:
+
+README_md (part of)
+
+Custom Datasets
+You can also train on your own dataset by following these steps:
+    • Create a COCO-style Object Detection JSON annotation file for your dataset. The specification for this can be found here. Note that we don't use some fields, so the following may be omitted: 
+        ◦ info 
+        ◦ liscense 
+        ◦ Under image: license, flickr_url, coco_url, date_captured 
+        ◦ categories (we use our own format for categories, see below) 
+    • Create a definition for your dataset under dataset_base in data/config.py (see the comments in dataset_base for an explanation of each field): 
+my_custom_dataset = dataset_base.copy({
+    'name': 'My Dataset',
+
+    'train_images': 'path_to_training_images',
+    'train_info':   'path_to_training_annotation',
+
+    'valid_images': 'path_to_validation_images',
+    'valid_info':   'path_to_validation_annotation',
+
+    'has_gt': True,
+    'class_names': ('my_class_id_1', 'my_class_id_2', 'my_class_id_3', ...)
+})
+    • A couple things to note: 
+        ◦ Class IDs in the annotation file should start at 1 and increase sequentially on 
+        the order of class_names. If this isn't the case for your annotation file 
+        (like in COCO), see the field label_map in dataset_base. 
+        ◦ If you do not want to create a validation split, use the same image path and 
+        annotations file for validation. By default (see python train.py --help), 
+        train.py will output validation mAP for the first 5000 images in the dataset 
+        every 2 epochs. 
+    • Finally, in yolact_base_config in the same file, change the value for 'dataset' 
+    to 'my_custom_dataset' or whatever you named the config object above. 
+    Then you can use any of the training commands in the previous section. 
+    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
+"""
     
