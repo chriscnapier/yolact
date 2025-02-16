@@ -221,7 +221,7 @@ vgg_transform = Config({
     'channel_order': 'RGB',
     'normalize': False,
     'subtract_means': True,
-    'to_float': False,ngs{yolact-iccv2019,
+    'to_float': False,
 })
 
 darknet_transform = Config({
@@ -892,6 +892,5 @@ my_custom_dataset = dataset_base.copy({
     • Finally, in yolact_base_config in the same file, change the value for 'dataset' 
     to 'my_custom_dataset' or whatever you named the config object above. 
     Then you can use any of the training commands in the previous section. 
-    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
 """
     
